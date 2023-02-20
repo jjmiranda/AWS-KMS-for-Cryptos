@@ -5,6 +5,15 @@
 const { KMS } = require('@aws-sdk/client-kms');
 const asn1 = require('asn1.js');
 const BN = require('bn.js');
+const bs58check = require('bs58check')
+
+let crypto;
+try {
+  crypto = require('node:crypto');
+} catch (err) {
+  console.error('crypto support is disabled!');
+}
+const hash = crypto.createHash('sha256');
 
 console.log("Probando...")
 
@@ -47,12 +56,22 @@ async function getCompressedPublicKey(){
     return Buffer.from(header + uncompressed.toString("hex").slice(2,66), "hex");
 }
 
-async function verCompressed(){
+async function addressBTCPlain(){
     const publicKey = await getCompressedPublicKey();
-    console.log("Compressed Hex: " + publicKey.toString("hex"));
-    const publicKeyHex = publicKey.toString("hex") + " + SHA256 + RIPEMD160 + prefix 00/6F + Base58Check Encode";
-    console.log("publicKeyHex: " + publicKeyHex);
-    return publicKeyHex;
+    const publicKeyHex = publicKey.toString("hex");
+    console.log("Compressed Hex: " + publicKeyHex);
+    const hash1 = crypto.createHash('sha256');
+    const sha256PublicKeyHex =  hash1.update(Buffer.from(publicKeyHex, "hex")).digest('hex');
+    console.log("Address BTC SHA: " + sha256PublicKeyHex);
+    const hash2 = crypto.createHash('ripemd160');
+    const ripemd160SHA256PK = hash2.update(Buffer.from(sha256PublicKeyHex, "hex")).digest('hex');
+    console.log("Address BTC RIPEDM160: " + ripemd160SHA256PK);
+    const base58CheckAddress = bs58check.encode(Buffer.from('00'+ripemd160SHA256PK, "hex"));
+    console.log("Address BTC IN: " + base58CheckAddress);
+    return base58CheckAddress;
 }
 
-verCompressed();
+const addressBTC = addressBTCPlain();
+addressBTC.then(function(results){
+    console.log("Address BTC OUT: " + results)
+});

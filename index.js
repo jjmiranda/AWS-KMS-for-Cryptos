@@ -20,7 +20,7 @@ const EcdsaPubKey = asn1.define('EcdsaPubKey', function() {
 });
 
 //const kmsKeyId = "arn:aws:kms:us-east-1:991486635649:key/4c7db894-65f3-4be2-bfce-11063c932cbc";
-const kmsKeyId = "arn:aws:kms:us-east-1:991486635649:key/3aa1299b-7099-42be-84f9-4e00d1f932d6";
+const kmsKeyId = process.argv[2]; //"arn:aws:kms:us-east-1:991486635649:key/3aa1299b-7099-42be-84f9-4e00d1f932d6";
 const kms = new KMS({
     region: "us-east-1",
     apiVersion: "2014-11-01",

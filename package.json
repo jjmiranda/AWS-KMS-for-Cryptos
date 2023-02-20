@@ -1,0 +1,23 @@
+{
+  "name": "aws-ksm",
+  "version": "1.0.0",
+  "description": "Convirtiendo llaves de AWS KMS a BTC Address",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ksm",
+    "aws",
+    "btc",
+    "jjmiranda"
+  ],
+  "author": "JJMiranda Manati Software",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-kms": "^3.272.0",
+    "asn1.js": "^5.4.1",
+    "bn.js": "^5.2.1",
+    "ripple-keypairs": "^1.1.4"
+  }
+}

@@ -1,7 +1,6 @@
 // import { KMS } from 'aws-sdk';
 // import * as asn1 from 'asn1.js';
 // import BN from 'bn.js';
-//import { deriveAddress } from "ripple-keypairs";
 
 const { KMS } = require('@aws-sdk/client-kms');
 const asn1 = require('asn1.js');
